@@ -15,25 +15,22 @@ public class Main {
 
         PrintIntegerCollectionRunnable printRunnable = new PrintIntegerCollectionRunnable(intCollection);
         ExecutorService executor = Executors.newSingleThreadExecutor();
-
+        executor.shutdown();
 
         Future<?> result = executor.submit(printRunnable);
-
 
         try {
             result.get();
             System.out.println("Task 1 has completed");
-            executor.shutdown();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException e) {
+            System.err.println("Error has occurred: " + e.getMessage());
         }
 
         // Task 2
 
         System.out.println("\n\n\nTask2");
         ExecutorService executor2 = Executors.newCachedThreadPool();
+        executor2.shutdown();
 
         Collection<Callable<Float>> callables = new ArrayList<>();
         callables.add(new MinimumNumberOfCollection(intCollection));
@@ -51,11 +48,8 @@ public class Main {
             System.out.println(listResults.get(2).get());
 
             System.out.println("Task 2 has completed");
-            executor2.shutdown();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException e) {
+            System.err.println("Error has occurred: " + e.getMessage());
         }
         long finish = System.nanoTime();
         System.out.println("Time: " + (finish - start));
@@ -73,12 +67,11 @@ public class Main {
         try {
             result.get();
             System.out.println("Task 3 has completed");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException e) {
+            System.err.println("Error has occurred: " + e.getMessage());
         }
 
+        // Another Task 3
 //        while (!result.isDone()) {
 //            System.out.println("Waiting");
 //        }
