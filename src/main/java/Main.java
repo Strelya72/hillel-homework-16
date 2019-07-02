@@ -15,7 +15,6 @@ public class Main {
 
         PrintIntegerCollectionRunnable printRunnable = new PrintIntegerCollectionRunnable(intCollection);
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.shutdown();
 
         Future<?> result = executor.submit(printRunnable);
 
@@ -25,12 +24,12 @@ public class Main {
         } catch (InterruptedException | ExecutionException e) {
             System.err.println("Error has occurred: " + e.getMessage());
         }
+        executor.shutdown();
 
         // Task 2
 
         System.out.println("\n\n\nTask2");
         ExecutorService executor2 = Executors.newCachedThreadPool();
-        executor2.shutdown();
 
         Collection<Callable<Float>> callables = new ArrayList<>();
         callables.add(new MinimumNumberOfCollection(intCollection));
@@ -53,6 +52,7 @@ public class Main {
         }
         long finish = System.nanoTime();
         System.out.println("Time: " + (finish - start));
+        executor2.shutdown();
 
 
         // Task 3
@@ -61,7 +61,7 @@ public class Main {
         ExecutorService executor3 = Executors.newSingleThreadExecutor();
         ThreadSleep threadSleep = new ThreadSleep(1000L);
         result = executor3.submit(threadSleep);
-        executor3.shutdown();
+
         start = System.nanoTime();
 
         try {
@@ -77,6 +77,7 @@ public class Main {
 //        }
 
         System.out.println("Time: " + (System.nanoTime() - start));
+        executor3.shutdown();
     }
 
 }
